@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Craig Lordrex Yap — Fullstack Developer</title>
+<meta name="description" content="Fullstack developer in Mandaluyong City, Philippines. Builds and tests web and mobile applications with JavaScript, Node.js, PHP and React Native.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#0E1420;
+  --raise:#141C2B;
+  --line:#243149;
+  --text:#DCE4F2;
+  --muted:#8496B2;
+  --amber:#F2A65A;
+  --live:#4ADE9B;
+  --measure:62ch;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  position:relative;
+  background:var(--ground);
+  color:var(--text);
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+a{color:inherit}
+
+:focus-visible{
+  outline:2px solid var(--amber);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+.wrap{
+  position:relative;
+  z-index:1;
+  width:min(1120px,92vw);
+  margin-inline:auto;
+}
+
+/* ---------- header backdrop ---------- */
+
+.backdrop{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:min(112vh,940px);
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+/* measured grid, fading out as it falls away from the name */
+.backdrop::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(to right,rgba(36,49,73,.85) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(36,49,73,.85) 1px,transparent 1px);
+  background-size:68px 68px;
+  background-position:center top;
+  -webkit-mask-image:radial-gradient(115% 78% at 22% 8%,#000 0%,rgba(0,0,0,.6) 48%,transparent 82%);
+  mask-image:radial-gradient(115% 78% at 22% 8%,#000 0%,rgba(0,0,0,.6) 48%,transparent 82%);
+}
+
+/* cool light from above, so the name reads against a lit field */
+.backdrop::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(88% 55% at 50% -12%,rgba(126,158,214,.13),transparent 68%),
+    linear-gradient(to bottom,transparent 62%,var(--ground) 97%);
+}
+
+/* ---------- masthead ---------- */
+
+.masthead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1.5rem;
+  padding:1.6rem 0;
+  flex-wrap:wrap;
+}
+
+.mark{
+  font-weight:700;
+  letter-spacing:-.02em;
+  text-decoration:none;
+  font-size:1.05rem;
+}
+
+.mark span{color:var(--amber)}
+
+.masthead nav{
+  display:flex;
+  gap:1.6rem;
+  font-size:.94rem;
+  color:var(--muted);
+}
+
+.masthead nav a{
+  text-decoration:none;
+  padding-bottom:2px;
+  border-bottom:1px solid transparent;
+}
+
+.masthead nav a:hover{
+  color:var(--text);
+  border-bottom-color:var(--amber);
+}
+
+/* ---------- hero ---------- */
+
+.hero{padding:clamp(3rem,9vw,7rem) 0 clamp(3rem,7vw,5.5rem)}
+
+.hero h1{
+  font-size:clamp(3.1rem,12.5vw,8.6rem);
+  font-weight:700;
+  line-height:.86;
+  letter-spacing:-.045em;
+  max-width:14ch;
+}
+
+.hero h1 em{
+  font-style:normal;
+  display:block;
+}
+
+.tagline{
+  margin-top:1.9rem;
+  font-size:clamp(1.1rem,2.4vw,1.42rem);
+  font-weight:400;
+  color:var(--text);
+  max-width:34ch;
+  line-height:1.4;
+}
+
+.locale{
+  margin-top:1rem;
+  color:var(--muted);
+  font-size:.95rem;
+  max-width:var(--measure);
+}
+
+/* ---------- live strip ---------- */
+
+.live{
+  margin-top:3.2rem;
+  border-top:1px solid var(--line);
+  padding-top:1.25rem;
+}
+
+.live-title{
+  color:var(--muted);
+  font-size:.9rem;
+  margin-bottom:1rem;
+}
+
+.live-list{
+  list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.65rem 2.4rem;
+}
+
+.live-list a{
+  display:inline-flex;
+  align-items:center;
+  gap:.6rem;
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:.98rem;
+  text-decoration:none;
+  border-bottom:1px solid var(--line);
+  padding-bottom:.25rem;
+}
+
+.live-list a:hover{border-bottom-color:var(--live)}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--live);
+  flex:none;
+  box-shadow:0 0 0 0 rgba(74,222,155,.55);
+  animation:ping 2.6s ease-out infinite;
+}
+
+.live-list li:nth-child(2) .dot{animation-delay:.5s}
+.live-list li:nth-child(3) .dot{animation-delay:1s}
+
+@keyframes ping{
+  0%{box-shadow:0 0 0 0 rgba(74,222,155,.5)}
+  70%{box-shadow:0 0 0 7px rgba(74,222,155,0)}
+  100%{box-shadow:0 0 0 0 rgba(74,222,155,0)}
+}
+
+/* ---------- buttons ---------- */
+
+.actions{
+  margin-top:2.6rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.8rem;
+}
+
+.btn{
+  display:inline-block;
+  padding:.72rem 1.35rem;
+  border:1px solid var(--line);
+  border-radius:3px;
+  text-decoration:none;
+  font-size:.97rem;
+  font-weight:500;
+  background:rgba(14,20,32,.55);
+  transition:background-color .18s ease,border-color .18s ease,color .18s ease;
+}
+
+.btn:hover{border-color:var(--amber);color:var(--amber)}
+
+.btn-solid{
+  background:var(--amber);
+  border-color:var(--amber);
+  color:#10141C;
+  font-weight:600;
+}
+
+.btn-solid:hover{
+  background:#FFBE78;
+  border-color:#FFBE78;
+  color:#10141C;
+}
+
+/* ---------- sections ---------- */
+
+section{padding:clamp(3.5rem,7vw,6rem) 0}
+
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:1rem;
+  border-top:2px solid var(--text);
+  padding-top:1rem;
+  margin-bottom:2.6rem;
+}
+
+.section-head h2{
+  font-size:clamp(1.5rem,3.4vw,2.1rem);
+  font-weight:600;
+  letter-spacing:-.02em;
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:.93rem;
+  margin-left:auto;
+  text-align:right;
+}
+
+/* ---------- work list ---------- */
+
+.entry{
+  display:grid;
+  grid-template-columns:minmax(0,15rem) minmax(0,1fr);
+  gap:1rem 2.5rem;
+  padding:2rem 0;
+  border-bottom:1px solid var(--line);
+}
+
+.entry:first-of-type{border-top:1px solid var(--line)}
+
+.entry-meta{color:var(--muted);font-size:.93rem}
+
+/* ---------- project screenshots ---------- */
+
+.shot{
+  position:relative;
+  margin-top:1.1rem;
+  width:100%;
+  max-width:20rem;
+  aspect-ratio:16/10;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:3px;
+  background:var(--raise);
+}
+
+.shot img{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
+
+/* shown only when the image is missing or fails to load */
+.shot::after{
+  content:attr(data-label);
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:.9rem;
+  border:1px dashed var(--line);
+  border-radius:3px;
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:.72rem;
+  line-height:1.5;
+  color:var(--muted);
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:.8rem;
+  color:var(--live);
+}
+
+.status.paused{color:var(--muted)}
+
+.status .pip{
+  width:6px;height:6px;border-radius:50%;
+  background:currentColor;flex:none;
+}
+
+/* role sits on its own line, under the status */
+.entry-role{
+  display:block;
+  margin-top:.7rem;
+  color:var(--muted);
+  line-height:1.4;
+}
+
+.entry h3{
+  font-size:1.35rem;
+  font-weight:600;
+  letter-spacing:-.015em;
+  margin-bottom:.5rem;
+}
+
+.entry p{
+  color:var(--muted);
+  max-width:var(--measure);
+  margin-bottom:1rem;
+}
+
+.tech{
+  list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin-bottom:1.05rem;
+}
+
+.tech li{
+  border:1px solid var(--line);
+  border-radius:2px;
+  padding:.22rem .6rem;
+  font-size:.82rem;
+  color:var(--muted);
+}
+
+.entry-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.35rem 1.6rem;
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:.88rem;
+}
+
+.entry-links a{
+  color:var(--amber);
+  text-decoration:none;
+  border-bottom:1px solid rgba(242,166,90,.35);
+  padding-bottom:2px;
+  word-break:break-all;
+}
+
+.entry-links a:hover{border-bottom-color:var(--amber)}
+
+/* ---------- experience ---------- */
+
+.role{
+  display:grid;
+  grid-template-columns:minmax(0,15rem) minmax(0,1fr);
+  gap:.6rem 2.5rem;
+  padding:1.8rem 0;
+  border-bottom:1px solid var(--line);
+}
+
+.role:first-of-type{border-top:1px solid var(--line)}
+
+.role-when{
+  color:var(--muted);
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:.86rem;
+  padding-top:.3rem;
+}
+
+.role h3{font-size:1.18rem;font-weight:600;margin-bottom:.15rem}
+
+.role .where{color:var(--amber);font-size:.95rem;margin-bottom:.8rem}
+
+.role ul{
+  list-style:none;
+  color:var(--muted);
+  max-width:var(--measure);
+}
+
+.role ul li{
+  padding-left:1.1rem;
+  position:relative;
+  margin-bottom:.4rem;
+  font-size:.96rem;
+}
+
+.role ul li::before{
+  content:"";
+  position:absolute;
+  left:0;top:.66em;
+  width:5px;height:1px;
+  background:var(--line);
+}
+
+/* ---------- skills + education ---------- */
+
+.cols{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:2.4rem 3rem;
+}
+
+.col h3{
+  font-size:1.02rem;
+  font-weight:600;
+  margin-bottom:.9rem;
+  padding-bottom:.6rem;
+  border-bottom:1px solid var(--line);
+}
+
+.col ul{list-style:none;color:var(--muted);font-size:.96rem}
+.col ul li{margin-bottom:.45rem}
+
+.col .year{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:.82rem;
+  color:var(--amber);
+  display:block;
+}
+
+/* ---------- contact ---------- */
+
+.contact{
+  border-top:2px solid var(--text);
+  padding:clamp(3rem,6vw,4.5rem) 0 3rem;
+}
+
+.contact h2{
+  font-size:clamp(2rem,6vw,3.6rem);
+  font-weight:700;
+  letter-spacing:-.035em;
+  line-height:1;
+  margin-bottom:1.2rem;
+}
+
+.contact p{
+  color:var(--muted);
+  max-width:46ch;
+  margin-bottom:2.2rem;
+}
+
+.contact-rows{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:1.4rem 2.5rem;
+  font-size:.97rem;
+}
+
+.contact-rows div span{
+  display:block;
+  color:var(--muted);
+  font-size:.85rem;
+  margin-bottom:.3rem;
+}
+
+.contact-rows a{
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  text-decoration:none;
+  border-bottom:1px solid var(--line);
+  padding-bottom:2px;
+  word-break:break-all;
+}
+
+.contact-rows a:hover{border-bottom-color:var(--amber);color:var(--amber)}
+
+footer{
+  border-top:1px solid var(--line);
+  padding:1.8rem 0 3rem;
+  color:var(--muted);
+  font-size:.86rem;
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width:760px){
+  .entry,.role{grid-template-columns:1fr;gap:.9rem}
+  .role-when{padding-top:0}
+  .section-head{flex-direction:column;gap:.4rem}
+  .section-head p{margin-left:0;text-align:left}
+  .hero h1{max-width:none}
+  .entry-role{margin-top:.5rem}
+  .shot{max-width:100%}
+  .backdrop{height:min(96vh,720px)}
+  .backdrop::before{background-size:44px 44px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="backdrop" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <a class="mark" href="#top">Craig Lordrex Yap<span>.</span></a>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#background">Background</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Craig Lordrex <em>Yap</em></h1>
+      <p class="tagline">Fullstack developer who ships web apps and then tests them properly.</p>
+      <p class="locale">Based in Mandaluyong City, Philippines. Currently building with OBF Dreams Inc. and testing core banking systems at MariBank Philippines.</p>
+
+      <div class="live">
+        <p class="live-title">Sites I'm building and maintaining right now</p>
+        <ul class="live-list">
+          <li><a href="https://mirastaffing.com" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>mirastaffing.com</a></li>
+          <li><a href="https://redfishinspections.com" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>redfishinspections.com</a></li>
+          <li><a href="https://obfdreams.com" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>obfdreams.com</a></li>
+        </ul>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-solid" href="mailto:yapcraiglordrex@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/craiglordrexyap/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/craiglordrex" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <!-- WORK -->
+    <section id="work">
+      <div class="section-head">
+        <h2>Selected work</h2>
+        <p>Three live client sites, three project builds</p>
+      </div>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <div class="status"><span class="pip" aria-hidden="true"></span>Live · ongoing</div>
+          <div class="entry-role">Fullstack Developer</div>
+          <figure class="shot" data-label="images/mirastaffing.png">
+            <img src="images/mirastaffing.png" alt="Mira Staffing homepage" loading="lazy" onerror="this.remove()">
+          </figure>
+        </div>
+        <div>
+          <h3>Mira Staffing</h3>
+          <p>Staffing agency site built and maintained end to end, from front-end interface through to the data layer.</p>
+          <div class="entry-links">
+            <a href="https://mirastaffing.com" target="_blank" rel="noopener">mirastaffing.com</a>
+            <a href="https://mirastaffing.ph" target="_blank" rel="noopener">mirastaffing.ph</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <div class="status"><span class="pip" aria-hidden="true"></span>Live · ongoing</div>
+          <div class="entry-role">Fullstack Developer</div>
+          <figure class="shot" data-label="images/redfish.png">
+            <img src="images/redfish.png" alt="Redfish Inspections homepage" loading="lazy" onerror="this.remove()">
+          </figure>
+        </div>
+        <div>
+          <h3>Redfish Inspections</h3>
+          <p>Inspection services site with ongoing feature work and maintenance.</p>
+          <div class="entry-links">
+            <a href="https://redfishinspections.com" target="_blank" rel="noopener">redfishinspections.com</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <div class="status"><span class="pip" aria-hidden="true"></span>Live · ongoing</div>
+          <div class="entry-role">Fullstack Developer</div>
+          <figure class="shot" data-label="images/obfdreams.png">
+            <img src="images/obfdreams.png" alt="OBF Dreams homepage" loading="lazy" onerror="this.remove()">
+          </figure>
+        </div>
+        <div>
+          <h3>OBF Dreams</h3>
+          <p>Company site built and maintained as part of my current work with OBF Dreams Inc.</p>
+          <div class="entry-links">
+            <a href="https://obfdreams.com" target="_blank" rel="noopener">obfdreams.com</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <div class="status paused"><span class="pip" aria-hidden="true"></span>Unfinished</div>
+          <div class="entry-role">Frontend Developer / Database Specialist</div>
+        </div>
+        <div>
+          <h3>Agent Profile Website</h3>
+          <p>Mobile-friendly property listing site showing agent profiles and property details, with inquiry forms connecting clients to agents.</p>
+          <ul class="tech">
+            <li>React Native</li><li>TypeScript</li><li>Firebase</li><li>Node.js</li>
+          </ul>
+          <div class="entry-links">
+            <a href="https://craigprtfolio-agentprofile.netlify.app/" target="_blank" rel="noopener">Visit site</a>
+            <a href="https://github.com/craiglordrex/smdc-lanoju" target="_blank" rel="noopener">Source on GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <div class="status paused"><span class="pip" aria-hidden="true"></span>Completed</div>
+          <div class="entry-role">Frontend &amp; Backend Developer / Database Specialist</div>
+        </div>
+        <div>
+          <h3>School Portal Website</h3>
+          <p>Enrollment and course management system handling grades, prerequisites and student records, with automated reporting and email notifications.</p>
+          <ul class="tech">
+            <li>PHP</li><li>CodeIgniter</li><li>MySQL</li><li>HTML/CSS</li>
+          </ul>
+          <div class="entry-links">
+            <a href="https://craigprtfolio-schoolportal.infinityfreeapp.com/" target="_blank" rel="noopener">Visit site</a>
+            <a href="https://github.com/craiglordrex/school-portal" target="_blank" rel="noopener">Source on GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="entry-meta">
+          <div class="status paused"><span class="pip" aria-hidden="true"></span>Capstone project</div>
+          <div class="entry-role">Lead Backend Developer</div>
+        </div>
+        <div>
+          <h3>Datalab — Parish Event &amp; Service Management</h3>
+          <p>My capstone project at FEU Institute of Technology. Scheduling and reporting modules for parish event management, with an integrated payment gateway and PDF/CSV exports.</p>
+          <ul class="tech">
+            <li>PHP</li><li>MySQL</li><li>JavaScript</li><li>Bootstrap</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-head">
+        <h2>Experience</h2>
+        <p>Development, QA and testing since 2020</p>
+      </div>
+
+      <article class="role">
+        <div class="role-when">Present</div>
+        <div>
+          <h3>Fullstack Developer</h3>
+          <p class="where">OBF Dreams Inc.</p>
+          <ul>
+            <li>Build and maintain client web applications across the front end, back end and database.</li>
+            <li>Ship and support live production sites, including obfdreams.com.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="role">
+        <div class="role-when">Feb 2024 — Present</div>
+        <div>
+          <h3>Product / Software Tester</h3>
+          <p class="where">MariBank Philippines Inc.</p>
+          <ul>
+            <li>Partner with developers to test and validate core banking applications for compliance and deployment readiness.</li>
+            <li>Design and run test cases mapped to business requirements, making release cycles more reliable.</li>
+            <li>Benchmark competitors to propose improvements to digital banking features.</li>
+            <li>Support transaction testing with the Mastercard Transaction Simulator.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="role">
+        <div class="role-when">Sep 2020 — Jul 2025</div>
+        <div>
+          <h3>Frontend Developer &amp; Virtual Assistant</h3>
+          <p class="where">Freelance</p>
+          <ul>
+            <li>Designed and built responsive websites, connecting front-end interfaces to databases.</li>
+            <li>Automated workflows and supported international clients with day-to-day digital operations.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="role">
+        <div class="role-when">May 2023 — Nov 2023</div>
+        <div>
+          <h3>Backend Developer &amp; QA Intern</h3>
+          <p class="where">Calcmenu Inc., Pasig City</p>
+          <ul>
+            <li>Continued backend development of the Calcmenu QA Tool web application in AngularJS.</li>
+            <li>Worked in agile sprints on features, debugging and deployment preparation.</li>
+            <li>Ran cross-browser validation to keep functionality consistent across platforms.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="role">
+        <div class="role-when">Aug 2021 — Oct 2021</div>
+        <div>
+          <h3>Quality Assurance Intern</h3>
+          <p class="where">Qairos Asia Inc.</p>
+          <ul>
+            <li>Ran functional testing and gave feedback that fed into UI/UX improvements.</li>
+            <li>Assisted with beta testing and database verification.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- BACKGROUND -->
+    <section id="background">
+      <div class="section-head">
+        <h2>Background</h2>
+        <p>What I work with, and where I trained</p>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <h3>Languages &amp; frameworks</h3>
+          <ul>
+            <li>JavaScript</li>
+            <li>Node.js</li>
+            <li>TypeScript</li>
+            <li>React Native</li>
+            <li>PHP / CodeIgniter</li>
+            <li>HTML, CSS, Bootstrap</li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h3>Data &amp; tooling</h3>
+          <ul>
+            <li>MySQL and SQL</li>
+            <li>Firebase</li>
+            <li>Git and GitHub</li>
+            <li>CI/CD and automation</li>
+            <li>Confluence, GSuite</li>
+            <li>Agile / Scrum, SDLC</li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h3>Testing &amp; QA</h3>
+          <ul>
+            <li>Test case design</li>
+            <li>Debugging and system validation</li>
+            <li>Cross-browser testing</li>
+            <li>Competitor benchmarking</li>
+            <li>Performance optimisation</li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h3>Education</h3>
+          <ul>
+            <li><span class="year">2019 — 2024</span>BS Information Technology, Web &amp; Mobile Application — FEU Institute of Technology</li>
+            <li><span class="year">2017 — 2019</span>ICT Strand, Technical Vocational — Lyceum of the Philippines University, Cavite</li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h3>Certifications</h3>
+          <ul>
+            <li><span class="year">2023</span>Certiport IT Specialist — Software Development</li>
+            <li><span class="year">2021</span>Certiport IT Specialist — Database</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <h2>Let's build something</h2>
+    <p>Open to fullstack work, freelance builds and QA-heavy projects. Email is the fastest way to reach me.</p>
+
+    <div class="contact-rows">
+      <div>
+        <span>Email</span>
+        <a href="mailto:yapcraiglordrex@gmail.com">yapcraiglordrex@gmail.com</a>
+      </div>
+      <div>
+        <span>Phone</span>
+        <a href="tel:+639150233582">+63 915 023 3582</a>
+      </div>
+      <div>
+        <span>LinkedIn</span>
+        <a href="https://www.linkedin.com/in/craiglordrexyap/" target="_blank" rel="noopener">in/craiglordrexyap</a>
+      </div>
+      <div>
+        <span>GitHub</span>
+        <a href="https://github.com/craiglordrex" target="_blank" rel="noopener">github.com/craiglordrex</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Craig Lordrex Yap — Mandaluyong City, Philippines</span>
+    <span>Built from scratch, 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
